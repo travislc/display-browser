@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=600, initial-scale=1, maximum-scale=1">
+<title>Display Browser</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+<meta name="theme-color" content="#000000">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:600px;height:600px;overflow:hidden;background:transparent}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,SF Pro Display,Helvetica,Arial,sans-serif;
+    background:radial-gradient(120% 120% at 50% 0%, rgba(30,30,35,0.9) 0%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.75) 100%);
+    color:#fff;
+    display:flex;flex-direction:column;
+    padding:18px 16px 14px;
+    border-radius:28px;
+  }
+  .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .title{font-size:11px;letter-spacing:0.18em;font-weight:700;opacity:0.6}
+  .dot{width:8px;height:8px;background:#00FFFF;border-radius:50%;box-shadow:0 0 10px #00FFFF}
+  .search-wrap{position:relative;margin-bottom:12px}
+  .search-wrap input{
+    width:100%;height:56px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.14);
+    border-radius:16px;padding:0 48px 0 16px;color:#fff;font-size:17px;outline:none;
+  }
+  .search-wrap input::placeholder{color:rgba(255,255,255,0.35)}
+  .search-wrap button{
+    position:absolute;right:6px;top:6px;width:44px;height:44px;border-radius:12px;
+    background:#fff;color:#000;border:none;font-weight:700;cursor:pointer;
+  }
+  .label{font-size:10px;letter-spacing:0.12em;opacity:0.45;margin:10px 2px 8px;font-weight:600}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{
+    height:82px;border-radius:16px;background:rgba(255,255,255,0.07);
+    border:1.5px solid rgba(255,255,255,0.12);color:#fff;
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+    padding:12px 14px;cursor:pointer;text-align:left;transition:all .12s;
+  }
+  .btn strong{font-size:15px;line-height:1.1}
+  .btn span{font-size:11px;opacity:0.55;margin-top:3px}
+  .btn:hover{background:rgba(255,255,255,0.11)}
+  .btn:focus-visible,.search-wrap input:focus-visible,.search-wrap button:focus-visible{
+    outline:2px solid #00FFFF !important;outline-offset:2px;border-color:rgba(0,255,255,0.6) !important;
+    box-shadow:0 0 0 4px rgba(0,255,255,0.18);
+  }
+  .yt{background:rgba(255,0,0,0.14);border-color:rgba(255,0,0,0.22)}
+  .footer{margin-top:auto;display:flex;gap:8px;font-size:10px;opacity:0.4;letter-spacing:0.04em}
+</style>
+</head>
+<body>
+  <div class="header"><div class="title">DISPLAY BROWSER — TRAVIS</div><div class="dot"></div></div>
+  
+  <div class="label">WEB SEARCH</div>
+  <form class="search-wrap" onsubmit="event.preventDefault(); goGoogle();">
+    <input id="g" tabindex="0" placeholder="Search Google..." autocomplete="off">
+    <button type="submit" tabindex="0">↗</button>
+  </form>
+
+  <div class="label">YOUTUBE SEARCH</div>
+  <form class="search-wrap" onsubmit="event.preventDefault(); goYT();">
+    <input id="y" tabindex="0" placeholder="Search YouTube..." autocomplete="off">
+    <button type="submit" tabindex="0">▶</button>
+  </form>
+
+  <div class="label">QUICK LAUNCH</div>
+  <div class="grid">
+    <button class="btn yt" tabindex="0" onclick="go('https://chrisclawguitarte.github.io/rayban-youtube-display/')"><strong>YouTube Display</strong><span>Optimized player</span></button>
+    <button class="btn" tabindex="0" onclick="go('https://www.google.com')"><strong>Google</strong><span>google.com</span></button>
+    <button class="btn" tabindex="0" onclick="go('https://www.wikipedia.org')"><strong>Wikipedia</strong><span>wikipedia.org</span></button>
+    <button class="btn" tabindex="0" onclick="go('https://www.reddit.com')"><strong>Reddit</strong><span>reddit.com</span></button>
+    <button class="btn" tabindex="0" onclick="go('https://x.com')"><strong>X</strong><span>x.com</span></button>
+    <button class="btn" tabindex="0" onclick="go('https://news.ycombinator.com')"><strong>Hacker News</strong><span>ycombinator</span></button>
+  </div>
+
+  <div class="footer"><span>D-PAD: ARROWS</span><span>•</span><span>SELECT: ENTER</span><span>•</span><span>BACK: ESC</span></div>
+
+<script>
+function go(u){ window.location.href = u; }
+function goGoogle(){
+  const q = document.getElementById('g').value.trim();
+  if(!q) return;
+  go('https://www.google.com/search?q='+encodeURIComponent(q));
+}
+function goYT(){
+  const q = document.getElementById('y').value.trim();
+  if(!q) return;
+  go('https://www.youtube.com/results?search_query='+encodeURIComponent(q));
+}
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') history.back();
+});
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</html>
